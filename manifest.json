@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Add words to AppEnglish",
+  "description": "Extension to add words in AppEnglish to learn vocabulary",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "css": ["modal.css"],
+    "js": ["content_script.js"]
+  }]
+}
