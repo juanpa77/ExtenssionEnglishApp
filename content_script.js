@@ -46,14 +46,13 @@ const removeModal = () => {
   const modal = document.querySelector(".modal");
   if (modal === null) return;
   modal.remove();
-  // document.removeEventListener("click", handleCloseModal);
 };
 const createModal = e => {
   const { positionX, positionY } = setModalPosition(e);
   const modal = document.createElement("div");
   modal.className = "modal";
-  modal.style.top = `${positionX}px`;
-  modal.style.right = `${positionY}px`;
+  modal.style.top = `${positionY}px`;
+  modal.style.left = `${positionX}px`;
   return modal;
 };
 
