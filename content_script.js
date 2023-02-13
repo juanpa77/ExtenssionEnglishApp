@@ -1,11 +1,11 @@
 class SelectionWords {
   constructor() {
-    this.words = "";
+    this.words = [""];
     this.counterClick = 0;
   }
 
   /**
-   * @param {string} word
+   * @param {[string]} word
    */
   set words(word) {
     this._words = word;
@@ -16,7 +16,7 @@ class SelectionWords {
   }
 
   resetWords() {
-    this._words = "";
+    this._words = [""];
   }
 }
 
@@ -24,8 +24,9 @@ const selection = new SelectionWords();
 
 const handleSelection = e => {
   const newSelection = document.getSelection().toString();
+  const splitSelection = newSelection.split(" ");
   const isSelectionGreaterTwo = newSelection.length > 2;
-  if (isSelectionGreaterTwo) selection.words = newSelection;
+  if (isSelectionGreaterTwo) selection.words = splitSelection;
 };
 
 document.addEventListener("selectionchange", handleSelection);
@@ -66,13 +67,15 @@ const containerWord = word => {
 
 const showModal = e => {
   document.body.appendChild(createModal(e));
-  const containerWord = createDiv("containerWord");
   const title = createDiv("wrapperTitle");
-  title.textContent = "Add words to learn";
-  containerWord.textContent = selection.words;
-
   appendElement("modal", title);
-  appendElement("modal", containerWord);
+  selection.words.map(word => {
+    const containerWord = createDiv("containerWord");
+    containerWord.textContent = word;
+    appendElement("modal", containerWord);
+  });
+
+  title.textContent = "Add words to learn";
   selection.counterClick++;
 };
 
