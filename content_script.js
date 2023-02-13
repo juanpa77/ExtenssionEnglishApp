@@ -24,19 +24,21 @@ const selection = new SelectionWords();
 
 const handleSelection = e => {
   const newSelection = document.getSelection().toString();
-  if (newSelection.length > 2) {
-    selection.words = newSelection;
-    console.log(selection.words);
-  }
+  const isSelectionGreaterTwo = newSelection.length > 2;
+  if (isSelectionGreaterTwo) selection.words = newSelection;
 };
 
 document.addEventListener("selectionchange", handleSelection);
 
 document.addEventListener("click", e => {
   const isModalElement = e.target.classList.contains("modal");
-  console.log(selection.words);
-  if (!isModalElement && selection.counterClick !== 0) removeModal();
-  if (selection.words.length > 2) showModal(e);
+  const isFirstClick = selection.counterClick === 0;
+  const isInputElement = e.target.localName === "input" || e.target.localName === "textarea";
+  console.log(e.target.localName);
+  const isSelectionGreaterTwo = selection.words.length > 2;
+
+  if (!isModalElement && !isFirstClick) removeModal();
+  if (isSelectionGreaterTwo && !isInputElement) showModal(e);
 });
 
 const removeModal = () => {
