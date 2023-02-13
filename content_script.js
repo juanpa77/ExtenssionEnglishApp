@@ -51,8 +51,7 @@ const removeModal = () => {
 };
 const createModal = e => {
   const { positionX, positionY } = setModalPosition(e);
-  const modal = document.createElement("div");
-  modal.className = "modal";
+  const modal = createDiv("modal");
   modal.style.top = `${positionY}px`;
   modal.style.left = `${positionX}px`;
   return modal;
@@ -67,19 +66,34 @@ const containerWord = word => {
 
 const showModal = e => {
   document.body.appendChild(createModal(e));
-  const modal = document.querySelector(".modal");
-  modal.appendChild(containerWord(selection.words));
+  const containerWord = createDiv("containerWord");
+  const title = createDiv("wrapperTitle");
+  title.textContent = "Add words to learn";
+  containerWord.textContent = selection.words;
+
+  appendElement("modal", title);
+  appendElement("modal", containerWord);
   selection.counterClick++;
 };
 
 const setModalPosition = e => {
   const positionX = e.pageX;
   const positionY = e.pageY;
-  console.log(e);
   return { positionX, positionY };
 };
 const handleCloseModal = e => {
   const isModalElement = e.target.classList.contains("modal");
   if (!isModalElement) removeModal();
   selection.resetWords();
+};
+
+const createDiv = className => {
+  const div = document.createElement("div");
+  div.className = className;
+  return div;
+};
+
+const appendElement = (classNameParent, element) => {
+  const parent = document.querySelector(`.${classNameParent}`);
+  parent.appendChild(element);
 };
