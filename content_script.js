@@ -56,8 +56,17 @@ const createModal = e => {
   return modal;
 };
 
+const containerWord = word => {
+  const containerWord = document.createElement("div");
+  containerWord.className = "containerWord";
+  containerWord.textContent = word;
+  return containerWord;
+};
+
 const showModal = e => {
   document.body.appendChild(createModal(e));
+  const modal = document.querySelector(".modal");
+  modal.appendChild(containerWord(selection.words));
   selection.counterClick++;
 };
 
