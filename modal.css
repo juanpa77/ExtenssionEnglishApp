@@ -1,7 +1,0 @@
-.modal {
-  position: absolute; 
-  z-index: 1000;
-  height: 200px;
-  width: 200px;
-  background-color: black;
-}
