@@ -21,6 +21,12 @@ class SelectionWords {
     return this.words;
   }
 
+  getFilteredWords() {
+    return this.words
+      .filter(word => word.isSelected)
+      .map(word => word.text)
+  }
+
   toggleSelected(wordText: string) {
     const index = this.words.findIndex(word => word.text === wordText)
     this.words[index] = {
