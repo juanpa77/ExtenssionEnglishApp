@@ -1,21 +1,16 @@
-import { doc, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { Message } from "../../background";
 import { db } from "../config";
 
-const sendWordToFirestoreDB = async (words: string[]) => {
-  const userId = getUserId()
-  // Add a new document in collection "cities"
-  console.log('test')
-  const wordRef = doc(db, 'users', 'id')
-  await setDoc(wordRef, { vocabulary: words });
+const sendWordToFirestoreDB = (words: string[]) => {
+  chrome.runtime.sendMessage<Message>({ type: 'send-words', payload: words }, /* (response) => {
+    // console.log(response)
+  } */);
 }
 
-const getUserId = () => {
-
-}
-
-// helper ??
-export function listener(message: string) {
-  return () => chrome.runtime.sendMessage(`click ${message}`);
+export const addWordsToFirestoreDb = (uid: string, words: string[]) => {
+  const userRef = doc(db, 'users', uid)
+  updateDoc(userRef, { vocabulary: arrayUnion(...words) });
 }
 
 export default sendWordToFirestoreDB

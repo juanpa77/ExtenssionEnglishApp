@@ -1,10 +1,10 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, signInWithCredential } from "firebase/auth";
-import { firebaseApp } from "./firebase/config";
+import { doc, updateDoc } from "firebase/firestore";
+import { auth } from "./firebase/authProvider";
+import { db, firebaseApp } from "./firebase/config";
+import { addWordsToFirestoreDb } from "./firebase/service/sendWords";
 
-// chrome.action.onClicked.addListener(function () {
-//   chrome.tabs.create({ url: 'index.html' })
-// });
 chrome.runtime.onInstalled.addListener(() => {
   chrome.identity.getAuthToken({ interactive: true }, function (idToken) {
     const credential = GoogleAuthProvider.credential(null, idToken);
@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
     signInWithCredential(auth, credential)
       .then((result) => {
         // Signed in
-        console.log(result)
+        console.log(result.user.uid)
         // ...
       })
       .catch((error) => {
@@ -23,9 +23,21 @@ chrome.runtime.onInstalled.addListener(() => {
         console.log(error)
         const errorCode = error.code;
         const errorMessage = error.message;
-        // The email of the user's account used.
+        // The email of the user's account used
         const email = error.customData.email;
         // ...
       });
   });
+});
+export type Message = {
+  type: string
+  payload: string[]
+}
+type ResponseUid = (response?: string) => void
+
+chrome.runtime.onMessage.addListener((message: Message, sender: any, sendResponse: ResponseUid) => {
+  if (message.type === 'send-words') {
+    addWordsToFirestoreDb(auth.currentUser.uid, message.payload)
+    sendResponse('successfully')
+  }
 });
