@@ -1,9 +1,9 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-import { Message } from "../../background";
+import { Action } from "../../background";
 import { db } from "../config";
 
 const sendWordToFirestoreDB = (words: string[]) => {
-  chrome.runtime.sendMessage<Message>({ type: 'send-words', payload: words }, /* (response) => {
+  chrome.runtime.sendMessage<Action>({ type: 'send-words', payload: words }, /* (response) => {
     // console.log(response)
   } */);
 }

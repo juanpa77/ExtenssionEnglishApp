@@ -29,13 +29,12 @@ chrome.runtime.onInstalled.addListener(() => {
       });
   });
 });
-export type Message = {
+export type Action = {
   type: string
   payload: string[]
 }
-type ResponseUid = (response?: string) => void
 
-chrome.runtime.onMessage.addListener((message: Message, sender: any, sendResponse: ResponseUid) => {
+chrome.runtime.onMessage.addListener((message: Action, sender: any, sendResponse) => {
   if (message.type === 'send-words') {
     addWordsToFirestoreDb(auth.currentUser.uid, message.payload)
     sendResponse('successfully')
