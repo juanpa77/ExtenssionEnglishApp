@@ -43,6 +43,7 @@ class SelectionWords {
   }
   resetWords() {
     this.words = [{ text: "", isSelected: false }];
+    this.counterClick = 0;
   }
   validation() {
     return this.words.some(selectedWord => {

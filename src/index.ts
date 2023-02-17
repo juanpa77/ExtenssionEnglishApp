@@ -43,5 +43,8 @@ document.addEventListener("click", (e: HTMLElementEvent<HTMLDivElement>) => {
   if (selection.validation() && !isInputElement && !isModalElement) {
     showModal(e, selection);
   }
-  if (classList.includes('btn__send-words')) sendWordToFirestoreDB(selection.getFilteredWords())
+  if (classList.includes('btn__send-words')) {
+    sendWordToFirestoreDB(selection.getFilteredWords())
+    removeModal(selection)
+  }
 });

@@ -37,16 +37,13 @@ const setModalPosition = e => {
 
 const createDiv = (className, textContent) => {
   const div = document.createElement("div");
-  console.log(...className);
   div.classList.add(...className);
-  // div.className = className;
   if (textContent) div.textContent = textContent;
   return div;
 };
 
 export const removeModal = selection => {
   selection.resetWords();
-  // selection.counterClick = 0;
   const modal = document.querySelector(".modal");
   if (modal === null) return;
   modal.remove();
