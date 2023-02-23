@@ -1,19 +1,18 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, signInWithCredential } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
 import { auth } from "./firebase/authProvider";
-import { db, firebaseApp } from "./firebase/config";
-import { addWordsToFirestoreDb } from "./firebase/service/sendWords";
+import { firebaseApp } from "./firebase/config";
+import { addWordsToFirestoreDb, initFirestoreDb } from "./firebase/service/sendWords";
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.identity.getAuthToken({ interactive: true }, function (idToken) {
     const credential = GoogleAuthProvider.credential(null, idToken);
-    // handleCredentialResponse(token)
     // Sign in with the credential from the user.
     const auth = getAuth(firebaseApp);
     console.log(auth)
     signInWithCredential(auth, credential)
       .then((result) => {
+        initFirestoreDb(auth.currentUser.uid)
         // Signed in
         console.log(result.user.uid)
         // ...
@@ -24,7 +23,7 @@ chrome.runtime.onInstalled.addListener(() => {
         const errorCode = error.code;
         const errorMessage = error.message;
         // The email of the user's account used
-        const email = error.customData.email;
+        // const email = error.customData.email;
         // ...
       });
   });
